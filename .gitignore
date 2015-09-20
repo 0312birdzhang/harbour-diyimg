@@ -1,0 +1,8 @@
+*.user*
+*.db
+*.list
+*.o
+RPMS/*
+Makefile
+*.pyc
+*.pyo
