@@ -39,9 +39,41 @@ Page {
 
     onCurrentindexChanged: {
         console.log("currentUrl:"+window.currentUrl)
-        url = window.currentUrl
+        //window.currentUrl = url
         //window.currentnum = 1.0
         //slider.value = 1.0
+        switch(currentindex){
+        case 1:
+            imgpy.parse(parseUrl(url),2.2,currentindex)
+            break;
+        case 2:
+            imgpy.parse(parseUrl(url),1.8,currentindex)
+            break;
+        case 3:
+            imgpy.parse(parseUrl(url),1.3,currentindex)
+            break;
+        case 4:
+            imgpy.parse(parseUrl(url),"150,130,280,230",currentindex)
+            break;
+        default:
+            break;
+        }
+//        if(currentindex == 4){//blur
+//            slider.enabled = false
+//            imgpy.parse(parseUrl(),"150,130,280,230",currentindex)
+//        }else{
+//            slider.enabled = true
+//        }
+    }
+
+    function parseUrl(url){
+        var pypath="";
+        if(url.substring(0,4) == "file"){
+            pypath=url.substring(7,url.length)
+        }else{
+            pypath=url;
+        }
+        return pypath;
     }
 
     SilicaFlickable{
@@ -69,13 +101,13 @@ Page {
         function resetSlider(){
             imgpage.localUrl = url;
             window.currentnum = 1.0
-            slider.value = 1.0
+            //slider.value = 1.0
         }
 
         ImagePage{
             id:imgpage
             localUrl:currentUrl
-            height: Screen.height - header.height - tabHeader.height - viewIndicator.height - slider.height
+            height: Screen.height - header.height - tabHeader.height - viewIndicator.height //- slider.height
             anchors{
                 top:header.bottom
                 left:parent.left
@@ -85,33 +117,24 @@ Page {
         }
 
 
-        Slider{
-            anchors{
-                top:imgpage.bottom
-                left:parent.left
-                right:parent.right
+//        Slider{
+//            anchors{
+//                top:imgpage.bottom
+//                left:parent.left
+//                right:parent.right
 
-            }
-            id:slider
-            value: window.currentnum
-            minimumValue:-1.0
-            maximumValue:3.0
-            stepSize: 0.2
-            valueText: value.toFixed(1)
-            width: parent.width - Theme.paddingMedium * 2
-            onValueChanged: {
-                //console.log("url:"+url)
-                var pypath="";
-                if(url.substring(0,4) == "file"){
-                    pypath=url.substring(7,url.length)
-                }else{
-                    pypath=url;
-                }
-                //console.log("pypath:"+pypath)
-                imgpy.parse(pypath,value.toFixed(1),currentindex)
-
-            }
-        }
+//            }
+//            id:slider
+//            value: window.currentnum
+//            minimumValue:-1.0
+//            maximumValue:3.0
+//            stepSize: 0.2
+//            valueText: value.toFixed(1)
+//            width: parent.width - Theme.paddingMedium * 2
+//            onValueChanged: {
+//                imgpy.parse(parseUrl(),value.toFixed(1),currentindex)
+//            }
+//        }
 //        Image{
 //            id:recover
 //            source:  "image://theme/icon-l-cancel"
@@ -133,10 +156,10 @@ Page {
 
         Rectangle {
             id: viewIndicator
-            anchors.top: slider.bottom
+            anchors.top: imgpage.bottom
             color: Theme.highlightColor
             height: Theme.paddingSmall
-            width: parseImg.width / 4
+            width: parseImg.width / 5
             x: currentindex * width
             z: 2
 
@@ -148,8 +171,8 @@ Page {
         }
 
         Rectangle {
-            anchors.top: slider.bottom
-            color: "black"
+            anchors.top: imgpage.bottom
+            color: "gray"
             opacity: 0.5
             height: Theme.paddingMedium
             width: parseImg.width
@@ -162,11 +185,11 @@ Page {
             anchors.top: viewIndicator.bottom
 
             Repeater {
-                model: [qsTr("Sharp"), qsTr("Color"),qsTr("Bright"),qsTr("Contrast")]
+                model: [qsTr("Sharp"), qsTr("Color"),qsTr("Bright"),qsTr("Contrast"),qsTr("Blur")]
                 Rectangle {
                     color: "black"
                     height: Theme.paddingLarge * 4
-                    width: parseImg.width / 4
+                    width: parseImg.width / 5
 
                     Label {
                         anchors.centerIn: parent
@@ -181,10 +204,10 @@ Page {
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            var selectedIndex = parent.x/(imgpage.width / 4) /* === 0 ? 0 :(parent.x === 180?1:360)*/
+                            var selectedIndex = parent.x/(imgpage.width / 5) /* === 0 ? 0 :(parent.x === 180?1:360)*/
                             currentindex = selectedIndex;
-                            window.currentnum = 1.0;
-                            slider.value = 1.0
+                            //window.currentnum = 1.0;
+                            //slider.value = 1.0
                         }
                     }
                 }

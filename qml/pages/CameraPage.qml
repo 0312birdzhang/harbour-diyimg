@@ -20,9 +20,10 @@ Page{
                     photoPreview.source = preview
                 }
                 onImageSaved: {
+                    window.currentUrl = path;
                     window.pageStack.replace(Qt.resolvedUrl("SecondPage.qml"),
                                                  { "url": path} );
-                    window.currentUrl = path;
+
                 }
                 onCaptureFailed:{
                     window.showMsg(message);
@@ -43,10 +44,10 @@ Page{
             anchors.fill: parent
             Image{
                 anchors{
-                    left:parent.left
+                    right:parent.right
                     bottom:parent.bottom
-                    bottomMargin: Theme.paddingLarge * 2
-                    leftMargin: Theme.paddingLarge * 2
+                    bottomMargin: Theme.paddingLarge * 3
+                    rightMargin: Theme.paddingLarge * 2
                 }
                 source:flashopen?"/usr/share/themes/base/meegotouch/icons/icon-m-camera-flash-always-screen.svg":
                                   "/usr/share/themes/base/meegotouch/icons/icon-m-camera-flash-off-screen.svg"

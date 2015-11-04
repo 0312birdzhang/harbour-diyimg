@@ -32,9 +32,32 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 CoverBackground {
-    CoverPlaceholder{
-        icon.source: "/usr/share/icons/hicolor/86x86/apps/harbour-diyimg.png"
+//    CoverPlaceholder{
+//        icon.source: "/usr/share/icons/hicolor/86x86/apps/harbour-diyimg.png"
+//        text:qsTr("DiyIMG")
+//    }
+    Image {
+        id: image
+        y: Theme.paddingLarge
+        source: "/usr/share/icons/hicolor/86x86/apps/harbour-diyimg.png"
+        anchors.horizontalCenter: parent.horizontalCenter
+        opacity: 0.4
+        width: parent.width/2.5
+        height: parent.width/2.5
+    }
+
+    Label {
+        id: label
+        anchors.centerIn: parent
+
+        width: parent.width - 2*Theme.paddingLarge
+        height: width
         text:qsTr("DiyIMG")
+        color: Theme.secondaryColor
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        wrapMode: Text.Wrap
+        fontSizeMode: Text.Fit
     }
 }
 

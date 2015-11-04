@@ -38,21 +38,19 @@ ApplicationWindow
     id:window
     property real currentnum:1.0
     property string currentUrl
-    // property var notification;
+    allowedOrientations: Orientation.All
     initialPage: Component { FirstPage { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
-    Component.onCompleted: {
-        //notification = Qt.createQmlObject("import org.nemomobile.notifications 1.0; Notification{}", window)
 
-    }
     Notification{
         id:notification
     }
+    //Component.onDestroyed: imgpy.clean()
     function showMsg(message) {
         notification.previewBody = qsTr("DiyIMG");
         notification.previewSummary = message;
-        notification.publish();
         notification.close();
+        notification.publish();
     }
 
     function getNowFormatDate() {
@@ -88,6 +86,10 @@ ApplicationWindow
             call('myimage.saveImg',[cachepath,savename],function(result){
             })
         }
+        function clean(){
+            call('myimage.cleanImg',[],function(result){})
+        }
+
         onReceived:{
             //console.log(data.toString())
             if(data.toString() == "saved"){

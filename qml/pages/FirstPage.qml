@@ -39,12 +39,12 @@ Page {
         anchors.fill: parent
 
 
-//        PullDownMenu {
-//            MenuItem {
-//                text: qsTr("Show Page 2")
-//                onClicked: pageStack.push(Qt.resolvedUrl("SecondPage.qml"))
-//            }
-//        }
+        PullDownMenu {
+            MenuItem {
+                text: qsTr("About")
+                onClicked: pageStack.push(aboutPage)
+            }
+        }
         contentHeight: column.height
 
 
@@ -72,6 +72,75 @@ Page {
             }
 
         }
+    }
+
+    Page{
+        id:aboutPage
+        SilicaFlickable {
+                id: about
+                anchors.fill: parent
+                contentHeight: aboutRectangle.height
+
+                VerticalScrollDecorator { flickable: about }
+
+                Column {
+                    id: aboutRectangle
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: parent.width
+                    spacing: Theme.paddingSmall
+
+                    PageHeader {
+                        //: headline of application information page
+                        title: qsTr("About")
+                    }
+
+                    SectionHeader {
+                        //: headline for application description
+                        text: qsTr("Description")
+                    }
+
+                    Label {
+                        //: application description
+                        textFormat: Text.RichText;
+                        text: 'This software is base on python PIL module,'+
+                              "If you have any good idea,please contact me,my email:0312birdzhang@gmail.com<br/>"
+                        width: parent.width - Theme.paddingLarge * 2
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        wrapMode: Text.WordWrap
+                        font.pixelSize: Theme.fontSizeSmall
+                    }
+
+                    SectionHeader {
+                        text: qsTr("License")
+                    }
+
+                    Label {
+                        text: qsTr("Copyright © by") + " 0312birzhang\n" + qsTr("License") + ": GPL v2"
+                        width: parent.width - Theme.paddingLarge * 2
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        font.pixelSize: Theme.fontSizeSmall
+                    }
+
+                    SectionHeader {
+                        //: headline for application project information
+                        text: qsTr("Source code")
+                        font.pixelSize: Theme.fontSizeSmall
+                    }
+
+                    Label {
+                        textFormat: Text.RichText;
+                        text: "<style>a:link { color: " + Theme.highlightColor + "; }</style><a href=\"https://github.com/0312birdzhang/harbour-diyimg\">https://github.com/0312birdzhang/harbour-diyimg\</a>"
+                        width: parent.width - Theme.paddingLarge * 2
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        font.pixelSize: Theme.fontSizeTiny
+
+                        onLinkActivated: {
+                            Qt.openUrlExternally(link)
+                        }
+                    }
+
+                }
+            }
     }
 }
 

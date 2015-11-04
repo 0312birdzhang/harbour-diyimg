@@ -75,9 +75,9 @@ Page {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
+                    window.currentUrl = url;
                     window.pageStack.push(Qt.resolvedUrl("SecondPage.qml"),
                                                  { "url": url} );
-                    window.currentUrl = url;
                 }
             }
         }

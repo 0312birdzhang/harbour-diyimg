@@ -4,7 +4,6 @@ Item {
     id: imagePage
 
     property string localUrl: ""
-    //allowedOrientations: Orientation.Portrait | Orientation.Landscape
     Flickable {
         id: imageFlickable
         anchors.fill: parent

@@ -5,6 +5,7 @@ import random
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageEnhance
+from PIL import ImageFilter
 from basedir import *
 import imghdr
 import hashlib
@@ -20,6 +21,9 @@ def saveImg(cachePath,savename):
     except:
         pyotherside.send("error")
         pass
+
+def cleanImg():
+    shutil.rmtree(cachePath)
 
 def isExis():
     if os.path.exists(savePath):
@@ -48,6 +52,22 @@ def cacheImg(url,md5name,imgtype):
     return cachedFile
 
 #处理图片
+
+#高斯模糊类
+class MyGaussianBlur(ImageFilter.Filter):
+    name = "GaussianBlur"
+
+    def __init__(self, radius=2, bounds=None):
+        self.radius = radius
+        self.bounds = bounds
+
+    def filter(self, image):
+        if self.bounds:
+            clips = image.crop(self.bounds).gaussian_blur(self.radius)
+            image.paste(clips, self.bounds)
+            return image
+        else:
+            return image.gaussian_blur(self.radius)
 
 """
     圆角
@@ -97,6 +117,12 @@ def color(img,imgpath,num):
     color_img = color.enhance(num)
     color_img.save(imgpath)
 
+#局部模糊
+def gaussianblur(img,imgpath,left,upper,right,lower):
+    bounds = (left,upper,right,lower)
+    gauss_img = img.filter(MyGaussianBlur(radius=29, bounds=bounds))
+    gauss_img.save(imgpath)
+
 #处理图片主类
 #qsTr("Sharp"), qsTr("Color"),qsTr("Bright"),qsTr("Contrast")
 def parseImg(path,num,type):
@@ -107,17 +133,20 @@ def parseImg(path,num,type):
     newpath =cachePath+md5(path.encode('utf-8'))+"."+findImgType(path)
     #if not os.path.exists(newpath):
     shutil.copy(path,newpath)
-    num=float(num)
     img = Image.open(newpath)
-    if type == 2:
-        bright(img,newpath,num)
-    if type == 0:
-        sharp(img,newpath,num)
-    if type == 3:
-        contrast(img,newpath,num)
-    if type == 1:
-        color(img,newpath,num)
-
+    if type == 4:
+        left,upper,right,lower = num.split(",")
+        gaussianblur(img,newpath,int(left),int(upper),int(right),int(lower))
+    else:
+        num=float(num)
+        if type == 2:
+            bright(img,newpath,num)
+        if type == 0:
+            sharp(img,newpath,num)
+        if type == 3:
+            contrast(img,newpath,num)
+        if type == 1:
+            color(img,newpath,num)
     pyotherside.send(newpath)
 
 def md5(str):
