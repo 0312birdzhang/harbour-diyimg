@@ -22,6 +22,29 @@
         <source>Take a photo</source>
         <translation>拍摄图片</translation>
     </message>
+    <message>
+        <source>About</source>
+        <extracomment>headline of application information page</extracomment>
+        <translation>关于</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <extracomment>headline for application description</extracomment>
+        <translation>说明</translation>
+    </message>
+    <message>
+        <source>License</source>
+        <translation>许可证</translation>
+    </message>
+    <message>
+        <source>Copyright © by</source>
+        <translation>版权所有© </translation>
+    </message>
+    <message>
+        <source>Source code</source>
+        <extracomment>headline for application project information</extracomment>
+        <translation>源代码</translation>
+    </message>
 </context>
 <context>
     <name>ImagePage</name>
@@ -71,20 +94,20 @@
         <source>Save</source>
         <translation>保存</translation>
     </message>
+    <message>
+        <source>Reset</source>
+        <translation>重置</translation>
+    </message>
+    <message>
+        <source>Blur</source>
+        <translation>模糊</translation>
+    </message>
 </context>
 <context>
     <name>harbour-diyimg</name>
     <message>
         <source>DiyIMG</source>
         <translation>丑图秀秀</translation>
-    </message>
-    <message>
-        <source>saved</source>
-        <translation>已保存</translation>
-    </message>
-    <message>
-        <source>error</source>
-        <translation>保存失败</translation>
     </message>
 </context>
 </TS>

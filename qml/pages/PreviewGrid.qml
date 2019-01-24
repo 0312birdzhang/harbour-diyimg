@@ -30,7 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import QtDocGallery 5.0
-import org.nemomobile.thumbnailer 1.0
+import Nemo.Thumbnailer 1.0
 
 Page {
     DocumentGalleryModel {
@@ -42,12 +42,13 @@ Page {
     }
 
 
-    // Gridview with Sailfish Silica specific
     SilicaGridView {
         id: grid
         header: PageHeader { title: qsTr("Images") }
-        cellWidth: Screen.width>540? (width / 4):(width / 3)
-        cellHeight: Screen.width>540? (width / 4):(width / 3)
+//        cellWidth: Screen.width>540? (width / 4):(width / 3)
+//        cellHeight: Screen.width>540? (width / 4):(width / 3)
+        cellWidth: isLandscape ? width / 5 : width / 3
+        cellHeight: cellWidth
         anchors.fill: parent
         model: galleryModel
 
@@ -75,7 +76,6 @@ Page {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    window.currentUrl = url;
                     window.pageStack.push(Qt.resolvedUrl("SecondPage.qml"),
                                                  { "url": url} );
                 }

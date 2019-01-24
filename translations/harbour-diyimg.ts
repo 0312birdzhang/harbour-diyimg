@@ -26,6 +26,29 @@
         <source>DiyIMG</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>About</source>
+        <extracomment>headline of application information page</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <extracomment>headline for application description</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>License</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copyright © by</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Source code</source>
+        <extracomment>headline for application project information</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImagePage</name>
@@ -75,17 +98,17 @@
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Blur</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>harbour-diyimg</name>
-    <message>
-        <source>saved</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>error</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>DiyIMG</source>
         <translation type="unfinished"></translation>

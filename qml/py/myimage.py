@@ -1,7 +1,8 @@
-import os,sys,shutil
+import os,sys
 import pyotherside
-import subprocess
 import random
+import base64
+import traceback
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageEnhance
@@ -9,147 +10,124 @@ from PIL import ImageFilter
 from basedir import *
 import imghdr
 import hashlib
-cachePath=XDG_CACHE_HOME+"/harbour-diyimg/diyimg/"
-savePath=HOME+"/Pictures/save/diyimg/"
+import math
+import io
 
-def saveImg(cachePath,savename):
-    try:
-        realpath=cachePath
-        isExis()
-        shutil.copy(realpath,savePath+savename+"."+findImgType(realpath))
-        pyotherside.send("saved")
-    except:
-        pyotherside.send("error")
-        pass
 
-def cleanImg():
-    shutil.rmtree(cachePath)
+tmp_img = io.BytesIO()
+savePath = "%s/%s" % (HOME, "Pictures/save/diyimg/" )
 
 def isExis():
-    if os.path.exists(savePath):
-        pass
-    else:
-        os.makedirs(savePath)
-
-def initPath():
     if not os.path.exists(savePath):
         os.makedirs(savePath)
-    if not os.path.exists(cachePath):
-        os.makedirs(cachePath)
-"""
-    缓存图片
-"""
-def cacheImg(url,md5name,imgtype):
-    cachedFile = cachePath+md5name+"."+imgtype
-    if os.path.exists(cachedFile):
-        pass
-    else:
-        if os.path.exists(cachePath):
-            pass
-        else:
-            os.makedirs(cachePath)
-        downloadImg(cachedFile,url)
-    return cachedFile
 
-#处理图片
-
-#高斯模糊类
-class MyGaussianBlur(ImageFilter.Filter):
-    name = "GaussianBlur"
-
-    def __init__(self, radius=2, bounds=None):
-        self.radius = radius
-        self.bounds = bounds
-
-    def filter(self, image):
-        if self.bounds:
-            clips = image.crop(self.bounds).gaussian_blur(self.radius)
-            image.paste(clips, self.bounds)
-            return image
-        else:
-            return image.gaussian_blur(self.radius)
-
-"""
-    圆角
-"""
-def circle_img(cachedFile):
-    ima = Image.open(cachedFile).convert("RGBA")
-    size = ima.size
-    r2 = min(size[0], size[1])
-    if size[0] != size[1]:
-        ima = ima.resize((r2, r2), Image.ANTIALIAS)
-    circle = Image.new('L', (r2, r2), 0)
-    draw = ImageDraw.Draw(circle)
-    draw.ellipse((0, 0, r2, r2), fill=255)
-    alpha = Image.new('L', (r2, r2), 255)
-    alpha.paste(circle, (0, 0))
-    ima.putalpha(alpha)
-    ima.save(cachedFile)
-
-#判断图片格式
-def findImgType(cachedFile):
-    imgType = imghdr.what(cachedFile)
-    return imgType
-
+def saveImg(savename):
+    isExis()
+    try:
+        image.save("%s/%s" % (savePath, savename))
+        with open("%s/%s" % (savePath, savename),'wb') as out:
+            out.write(tmp_img.read())
+        Utils.tips("saved")
+    except Exception as e:
+        Utils.log(traceback.format_exc())
+        Utils.error(e.args[0])
 
 
 #亮度增强(adjust image brightness)
-def bright(img,imgpath,num):
+def bright(img,num):
     brightness = ImageEnhance.Brightness(img) #调用Brightness类
-    bright_img = brightness.enhance(num)
-    bright_img.save(imgpath)
+    return brightness.enhance(num)
 
 #图像尖锐化(adjust image sharpness)
-def sharp(img,imgpath,num):
+def sharp(img,num):
     sharpness = ImageEnhance.Sharpness(img) #调用Sharpness类
-    sharp_img = sharpness.enhance(num)
-    sharp_img.save(imgpath)
+    return sharpness.enhance(num)
 
 #对比度增强(adjust image contrast)
-def contrast(img,imgpath,num):
+def contrast(img,num):
     contrast = ImageEnhance.Contrast(img)
-    contrast_img = contrast.enhance(num)
-    contrast_img.save(imgpath)
+    return contrast.enhance(num)
 
 #同样色彩增强(adjust image color）
-def color(img,imgpath,num):
+def color(img,num):
     color = ImageEnhance.Color(img)
-    color_img = color.enhance(num)
-    color_img.save(imgpath)
+    return color.enhance(num)
 
 #局部模糊
-def gaussianblur(img,imgpath,left,upper,right,lower):
+def gaussianblur(img,left,upper,right,lower):
     bounds = (left,upper,right,lower)
-    gauss_img = img.filter(MyGaussianBlur(radius=29, bounds=bounds))
-    gauss_img.save(imgpath)
+    return img.filter(MyGaussianBlur(radius=29, bounds=bounds))
 
-#处理图片主类
-#qsTr("Sharp"), qsTr("Color"),qsTr("Bright"),qsTr("Contrast")
-def parseImg(path,num,type):
-    initPath()
-    if not os.path.exists(path):
-        #pyotherside.send("status","not exist")
-        return
-    newpath =cachePath+md5(path.encode('utf-8'))+"."+findImgType(path)
-    #if not os.path.exists(newpath):
-    shutil.copy(path,newpath)
-    img = Image.open(newpath)
-    if type == 4:
-        left,upper,right,lower = num.split(",")
-        gaussianblur(img,newpath,int(left),int(upper),int(right),int(lower))
-    else:
-        num=float(num)
-        if type == 2:
-            bright(img,newpath,num)
-        if type == 0:
-            sharp(img,newpath,num)
-        if type == 3:
-            contrast(img,newpath,num)
-        if type == 1:
-            color(img,newpath,num)
-    pyotherside.send(newpath)
+def image_provider(image_id, requested_size):
+    ptype, pnum, filepath = image_id.split("___")
+    try:
+#        Utils.log("triggered")
+#        Utils.log(filepath)
+        image_id = filepath.replace("file://","")
+        img = Image.open(filepath)
+        width, height = img.size
+#        Utils.log("img size: %s,%s" % (width, height))
+        imgByteArr = io.BytesIO()
+        if ptype == "null" or pnum == "-1":
+            roiImg = img
+        elif ptype == "blur":
+            left,upper,right,lower = pnum.split(",")
+            roiImg = gaussianblur(img,int(left),int(upper),int(right),int(lower))
+        else:
+            num = float(pnum)
+            if ptype == "bright":
+                roiImg = bright(img,num)
+            if ptype == "sharp":
+                roiImg = sharp(img,num)
+            if ptype == "contrast":
+                roiImg = contrast(img,num)
+            if ptype == "color":
+                roiImg = color(img,num)
+        roiImg.save(imgByteArr, format='PNG')
+        tmp_img = imgByteArr
+        return bytearray(imgByteArr.getvalue()), (width, height), pyotherside.format_data
 
-def md5(str):
-    m = hashlib.md5()
-    m.update(str)
-    return m.hexdigest()
+    except Exception as e:
+        Utils.log(traceback.format_exc())
+        Utils.error(e.args[0])
+
+
+class Utils:
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def log(str):
+        """
+        Print log to console
+        """
+
+        Utils.send('log', str)
+
+    @staticmethod
+    def error(str):
+        """
+        Send error string to QML to show on banner
+        """
+
+        Utils.send('error', str)
+
+    @staticmethod
+    def tips(str):
+        """
+        Send tips message
+        """
+        Utils.send("tips", str)
+
+    @staticmethod
+    def send(event, msg=None):
+        """
+        Send data to QML
+        """
+
+        pyotherside.send(event, msg)
+        
+utils = Utils()
+#initPath()
+
+pyotherside.set_image_provider(image_provider)

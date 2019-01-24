@@ -43,3 +43,6 @@ CONFIG += sailfishapp_i18n
 TRANSLATIONS += translations/harbour-diyimg-de.ts \
                 translations/harbour-diyimg-zh_CN.ts
 
+DISTFILES += \
+    qml/pages/SignalCenter.qml
+

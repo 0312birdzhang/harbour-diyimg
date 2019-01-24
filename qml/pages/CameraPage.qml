@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import QtMultimedia 5.4
+import QtMultimedia 5.6
 Page{
     id:cameraPage
     property bool flashopen:false

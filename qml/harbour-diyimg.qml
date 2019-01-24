@@ -31,13 +31,15 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "pages"
-import io.thp.pyotherside 1.3
-import org.nemomobile.notifications 1.0
+import io.thp.pyotherside 1.5
+import Nemo.Notifications 1.0
 ApplicationWindow
 {
     id:window
     property real currentnum:1.0
-    property string currentUrl
+    property string selectedFile
+    property bool loading: false
+
     allowedOrientations: Orientation.All
     initialPage: Component { FirstPage { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
@@ -45,7 +47,18 @@ ApplicationWindow
     Notification{
         id:notification
     }
-    //Component.onDestroyed: imgpy.clean()
+
+    SignalCenter{
+        id: signalCenter
+    }
+
+    BusyIndicator {
+        id: busyIndicator
+        anchors.centerIn: parent
+        running: loading
+        size: BusyIndicatorSize.Large
+    }
+    
     function showMsg(message) {
         notification.previewBody = qsTr("DiyIMG");
         notification.previewSummary = message;
@@ -71,41 +84,43 @@ ApplicationWindow
         return currentdate;
     }
 
+    function parsePath(url){
+        var path;
+        if(url.substring(0,4) == "file"){
+            path = url.substring(7,url.length)
+        }else{
+            path = url;
+        }
+        return path;
+    }
     Python{
         id:imgpy
         Component.onCompleted: {
             addImportPath(Qt.resolvedUrl('./py')); // adds import path to the directory of the Python script
             imgpy.importModule('myimage', function () { // imports the Python module
             });
-        }
-        function parse(url,num,type){
-            call('myimage.parseImg',[url,num,type],function(result){
+            setHandler('error', function(msg){
+                loading = false;
+                showMsg(msg);
+            })
+
+            setHandler('log', function(msg){
+                console.log(msg);
+            })
+
+            setHandler('tips', function(msg){
+                showMsg(msg);
             })
         }
-        function save(cachepath,savename){
-            call('myimage.saveImg',[cachepath,savename],function(result){
+        function save(){
+            var savename = getNowFormatDate()
+            call('myimage.saveImg',[savename],function(result){
             })
         }
         function clean(){
             call('myimage.cleanImg',[],function(result){})
         }
 
-        onReceived:{
-            //console.log(data.toString())
-            if(data.toString() == "saved"){
-                showMsg(qsTr("saved"))
-            }else if(data.toString() == "error"){
-                showMsg(qsTr("error"))
-            }else{
-
-                currentUrl ="";
-                var newpath = data.toString();
-                if(newpath.substring(0,4) == "file"){
-                    newpath = newpath.substring(7,newpath.length)
-                }
-                currentUrl = newpath;
-            }
-        }
     }
 }
 
