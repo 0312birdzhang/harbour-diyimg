@@ -45,6 +45,14 @@
         <extracomment>headline for application project information</extracomment>
         <translation>源代码</translation>
     </message>
+    <message>
+        <source>This software is base on python PIL module,If you have any good idea, please contact me.</source>
+        <translation>此软件是基于python的PIL模块，如果你有好的想法，欢迎联系我。</translation>
+    </message>
+    <message>
+        <source>My email:</source>
+        <translation>我的邮箱：</translation>
+    </message>
 </context>
 <context>
     <name>ImagePage</name>

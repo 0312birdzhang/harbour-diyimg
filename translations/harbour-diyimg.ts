@@ -49,6 +49,14 @@
         <extracomment>headline for application project information</extracomment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>This software is base on python PIL module,If you have any good idea, please contact me.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>My email:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImagePage</name>

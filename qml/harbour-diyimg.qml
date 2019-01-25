@@ -68,8 +68,6 @@ ApplicationWindow
 
     function getNowFormatDate() {
         var date = new Date();
-        var seperator1 = "-";
-        var seperator2 = ":";
         var month = date.getMonth() + 1;
         var strDate = date.getDate();
         if (month >= 1 && month <= 9) {
@@ -78,9 +76,7 @@ ApplicationWindow
         if (strDate >= 0 && strDate <= 9) {
             strDate = "0" + strDate;
         }
-        var currentdate = "DiyImg-"+date.getFullYear() + seperator1 + month + seperator1 + strDate
-                + "--" + date.getHours() + seperator2 + date.getMinutes()
-                + seperator2 + date.getSeconds();
+        var currentdate = "DiyImg-" + date.getFullYear() + month + strDate + date.getHours() + date.getMinutes() + date.getSeconds() + ".png";
         return currentdate;
     }
 
@@ -111,14 +107,22 @@ ApplicationWindow
             setHandler('tips', function(msg){
                 showMsg(msg);
             })
+            
+            setHandler('loading', function(msg){
+                if(msg === "true"){
+                    loading = true;
+                }else{
+                    loading = false;
+                }
+            })
         }
         function save(){
             var savename = getNowFormatDate()
-            call('myimage.saveImg',[savename],function(result){
+            call('myimage.imghaldler.saveImg',[savename],function(result){
             })
         }
         function clean(){
-            call('myimage.cleanImg',[],function(result){})
+            call('myimage.imghaldler.cleanImg',[],function(result){})
         }
 
     }

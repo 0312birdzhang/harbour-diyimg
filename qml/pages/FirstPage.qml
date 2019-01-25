@@ -102,8 +102,9 @@ Page {
                     Label {
                         //: application description
                         textFormat: Text.RichText;
-                        text: 'This software is base on python PIL module,'+
-                              "If you have any good idea,please contact me,my email:0312birdzhang@gmail.com<br/>"
+                        text: qsTr('This software is base on python PIL module,'+
+                              "If you have any good idea, please contact me.") +
+                              qsTr("My email:") + "0312birdzhang@gmail.com<br/>"
                         width: parent.width - Theme.paddingLarge * 2
                         anchors.horizontalCenter: parent.horizontalCenter
                         wrapMode: Text.WordWrap
@@ -115,8 +116,14 @@ Page {
                     }
 
                     Label {
-                        text: qsTr("Copyright © by") + " 0312birzhang\n" + qsTr("License") + ": GPL v2"
-                        width: parent.width - Theme.paddingLarge * 2
+                        text: qsTr("Copyright © by") + " 0312birzhang" + qsTr("License") + ": GPL v2"
+                        width: parent.width
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        font.pixelSize: Theme.fontSizeSmall
+                    }
+                    Label {
+                        text: qsTr("License") + ": GPL v2"
+                        width: parent.width
                         anchors.horizontalCenter: parent.horizontalCenter
                         font.pixelSize: Theme.fontSizeSmall
                     }
@@ -130,7 +137,7 @@ Page {
                     Label {
                         textFormat: Text.RichText;
                         text: "<style>a:link { color: " + Theme.highlightColor + "; }</style><a href=\"https://github.com/0312birdzhang/harbour-diyimg\">https://github.com/0312birdzhang/harbour-diyimg\</a>"
-                        width: parent.width - Theme.paddingLarge * 2
+                        width: parent.width
                         anchors.horizontalCenter: parent.horizontalCenter
                         font.pixelSize: Theme.fontSizeTiny
 

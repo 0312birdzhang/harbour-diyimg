@@ -93,9 +93,11 @@ Page {
                 }
                 MenuItem{
                     text: qsTr("Reset")
+                    visible: false
                     onClicked: {
                         ptype = "null"
                         pnum = "-1"
+                        slider.value = 1
                         handleUrl()
                     }
                 }
@@ -131,9 +133,8 @@ Page {
                 }
                 id:slider
                 value: 1
-                visible: currentindex != 4
-                enabled: !window.loading
-                opacity: window.loading ? 0.3: 1
+                enabled: !window.loading || currentindex != 4
+                opacity: ( !window.loading || currentindex != 4 )? 1: 0.3
                 minimumValue:-1.0
                 maximumValue:3.0
                 stepSize: 0.2
