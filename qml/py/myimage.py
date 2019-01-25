@@ -16,19 +16,27 @@ import shutil
 
 #高斯模糊类
 class MyGaussianBlur(ImageFilter.Filter):
-    name = "GaussianBlur"
-
     def __init__(self, radius=2, bounds=None):
         self.radius = radius
         self.bounds = bounds
 
     def filter(self, image):
         if self.bounds:
-            clips = image.crop(self.bounds).gaussian_blur(self.radius)
-            image.paste(clips, self.bounds)
+            Utils.log(str(type(image)))
+            Utils.log(str(self.bounds))
+            clips = image.crop(self.bounds)
+            Utils.log(str(type(clips)))
+            im = clips.filter(ImageFilter.GaussianBlur)
+            Utils.log(str(type(im)))
+            tmp_im = io.BytesIO()
+            im.save(tmp_im,format='PNG')
+            Utils.log(str(type(im)))
+            tmp_im.seek(0)
+            image.paste(Image.open(tmp_im), box = self.bounds)
+            del tmp_im
             return image
         else:
-            return image.gaussian_blur(self.radius)
+            return image.filter(ImageFilter.GaussianBlur(self.radius))
 
 class ImgHandler:
     def __init__(self):
@@ -79,26 +87,28 @@ class ImgHandler:
         return color.enhance(num)
 
     #局部模糊
-    def gaussianblur(self, img,left,upper,right,lower):
-        bounds = (left,upper,right,lower)
-        return img.filter(MyGaussianBlur(radius=29, bounds=bounds))
+    def gaussianblur(self, img, bounds):
+        myblur = MyGaussianBlur(radius=2, bounds=bounds)
+        return myblur.filter(img)
 
     def image_provider(self, image_id, requested_size):
         Utils.loading("true")
         ptype, pnum, filepath = image_id.split("___")
         try:
-    #        Utils.log("triggered")
-    #        Utils.log(filepath)
             image_id = filepath.replace("file://","")
             img = Image.open(filepath)
             width, height = img.size
-    #        Utils.log("img size: %s,%s" % (width, height))
             imgByteArr = io.BytesIO()
             if ptype == "null" or pnum == "-1":
                 roiImg = img
             elif ptype == "blur":
-                left,upper,right,lower = pnum.split(",")
-                roiImg = self.gaussianblur(img,int(left),int(upper),int(right),int(lower))
+                if self.tmp_img.getbuffer().nbytes > 0:
+                    # use prev operator
+                    Utils.log("use prev cached img")
+                    self.tmp_img.seek(0)
+                    img = Image.open(self.tmp_img)
+                bounds = [int(x) for x in pnum.split(",")]
+                roiImg = self.gaussianblur(img, bounds)
             else:
                 num = float(pnum)
                 if ptype == "bright":
@@ -112,8 +122,6 @@ class ImgHandler:
             roiImg.save(imgByteArr, format='PNG')
             self.tmp_img = imgByteArr
             Utils.loading("false")
-#            Utils.log("imgByteArr length:")
-#            Utils.log(imgByteArr.getbuffer().nbytes)
             return bytearray(imgByteArr.getvalue()), (width, height), pyotherside.format_data
 
         except Exception as e:

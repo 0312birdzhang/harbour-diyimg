@@ -2,6 +2,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 Item {
     id: imagePage
+    signal painted(var left, var upper, var right, var lower)
 
     property string localUrl: ""
     Flickable {
@@ -62,6 +63,23 @@ Item {
                     }
                     prevScale = scale
                 }
+
+                MouseArea{
+                    anchors.fill: parent
+                    onPressed: {
+                        if(!loading){
+                            var left,upper,right,lower;
+                            left = mouseX - imagePreview.x - 2;
+                            upper = mouseY - imagePreview.y + 2;
+                            right = mouseX - imagePreview.x + 2;
+                            lower = mouseY - imagePreview.y - 2;
+//                            painted(left, upper, right, lower)
+                            painted(2,3,4,1)
+                        }
+                    }
+                }
+
+
             }
         }
 

@@ -107,13 +107,18 @@ Page {
             ImagePage{
                 id: imgpage
                 localUrl: Qt.resolvedUrl(url.substring("file://".length))
-//                cache: true
-//                width: parent.width
                 height: Screen.height - header.height - extraCol.height
                 anchors{
                     left:parent.left
                     right:parent.right
                     margins: Theme.paddingMedium
+                }
+
+                onPainted: {
+                    if(!loading && currentindex == 4){
+                        var num = parseInt(left)+ ","+ parseInt(upper)+ "," + parseInt(right) + "," + parseInt(lower);
+                        flickable.parse(num);
+                    }
                 }
             }
         }
@@ -133,10 +138,10 @@ Page {
                 }
                 id:slider
                 value: 1
-                enabled: !window.loading || currentindex != 4
-                opacity: ( !window.loading || currentindex != 4 )? 1: 0.3
-                minimumValue:-1.0
-                maximumValue:3.0
+                enabled: !window.loading && currentindex != 4
+                opacity: ( !window.loading && currentindex != 4 )? 1: 0.3
+                minimumValue:-2.0
+                maximumValue:4.0
                 stepSize: 0.2
                 valueText: value.toFixed(1)
                 width: parent.width - Theme.paddingMedium * 2
