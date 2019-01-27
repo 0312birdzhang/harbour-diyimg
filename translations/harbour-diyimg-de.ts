@@ -61,10 +61,6 @@
 <context>
     <name>ImagePage</name>
     <message>
-        <source>Loading image...%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Error loading image</source>
         <translation type="unfinished"></translation>
     </message>
@@ -104,10 +100,6 @@
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Blur</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

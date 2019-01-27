@@ -45,8 +45,7 @@ Page {
     SilicaGridView {
         id: grid
         header: PageHeader { title: qsTr("Images") }
-//        cellWidth: Screen.width>540? (width / 4):(width / 3)
-//        cellHeight: Screen.width>540? (width / 4):(width / 3)
+        width: parent.width
         cellWidth: isLandscape ? width / 5 : width / 3
         cellHeight: cellWidth
         anchors.fill: parent
@@ -66,13 +65,12 @@ Page {
 
         delegate: Image {
             asynchronous: true
-
             // From org.nemomobile.thumbnailer
             source:  "image://nemoThumbnail/" + url
-
             sourceSize.width: grid.cellWidth
             sourceSize.height: grid.cellHeight
-
+            width: grid.cellWidth
+            height: grid.cellHeight
             MouseArea {
                 anchors.fill: parent
                 onClicked: {

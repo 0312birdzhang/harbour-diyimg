@@ -57,10 +57,6 @@
 <context>
     <name>ImagePage</name>
     <message>
-        <source>Loading image...%1</source>
-        <translation>加载图片...%1</translation>
-    </message>
-    <message>
         <source>Error loading image</source>
         <translation>加载图片失败</translation>
     </message>
@@ -105,10 +101,6 @@
     <message>
         <source>Reset</source>
         <translation>重置</translation>
-    </message>
-    <message>
-        <source>Blur</source>
-        <translation>模糊</translation>
     </message>
 </context>
 <context>

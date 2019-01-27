@@ -20,7 +20,6 @@ Page{
                     photoPreview.source = preview
                 }
                 onImageSaved: {
-                    window.currentUrl = path;
                     window.pageStack.replace(Qt.resolvedUrl("SecondPage.qml"),
                                                  { "url": path} );
 
@@ -49,19 +48,21 @@ Page{
                     bottomMargin: Theme.paddingLarge * 3
                     rightMargin: Theme.paddingLarge * 2
                 }
-                source:flashopen?"/usr/share/themes/base/meegotouch/icons/icon-m-camera-flash-always-screen.svg":
-                                  "/usr/share/themes/base/meegotouch/icons/icon-m-camera-flash-off-screen.svg"
+                source:flashopen? "image://theme/icon-m-flashlight":
+                                  "image://theme/icon-m-flashlight?" + Theme.darkSecondaryColor
                 width: Theme.iconSizeMedium
                 height:Theme.iconSizeMedium
                 MouseArea {
                     anchors.fill: parent;
-                    onClicked: flashopen=flashopen?false:true
+                    onClicked: flashopen = !flashopen
                 }
             }
 
             Image{
                 id:takpic
-                source:  "/usr/share/themes/base/meegotouch/icons/icon-m-viewfinder-camera.svg"
+                source:  "image://theme/icon-m-dot?" + (pressed
+                                                      ? Theme.highlightColor
+                                                      : Theme.primaryColor)
                 fillMode: Image.PreserveAspectFit
                 width: Theme.iconSizeLarge
                 height: Theme.iconSizeLarge

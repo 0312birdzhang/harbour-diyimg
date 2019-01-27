@@ -22,6 +22,8 @@ Item {
 
                 property real prevScale
 
+
+
                 function fitToScreen() {
                     scale = Math.min(imageFlickable.width / width, imageFlickable.height / height, 1)
                     pinchArea.minScale = scale
@@ -68,13 +70,21 @@ Item {
                     anchors.fill: parent
                     onPressed: {
                         if(!loading){
+                            // (x, y, w+x, h+y)
+                            console.log("mouseX:",mouseX)
+                            console.log("mouseY:",mouseY)
+                            console.log("imagePreviewX:",imagePreview.x)
+                            console.log("imagePreviewY:",imagePreview.y)
                             var left,upper,right,lower;
-                            left = mouseX - imagePreview.x - 2;
-                            upper = mouseY - imagePreview.y + 2;
-                            right = mouseX - imagePreview.x + 2;
-                            lower = mouseY - imagePreview.y - 2;
-//                            painted(left, upper, right, lower)
-                            painted(2,3,4,1)
+                            left = mouseX - 10;
+                            upper = mouseY - 10;
+                            right = mouseX + 10;
+                            lower = mouseY + 10;
+                            if(left < 0 ) left = mouseX;
+                            if(upper < 0 ) upper = mouseY;
+                            if(imagePreview.width < right) right = mouseX;
+                            if(imagePreview.height < lower) lower = mouseY;
+                            painted(left, upper, right, lower)
                         }
                     }
                 }
@@ -136,21 +146,21 @@ Item {
                 height: childrenRect.height
                 width: imagePage.width
 
-                BusyIndicator {
-                    id: imageLoadingIndicator
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    running: true
-                }
+//                BusyIndicator {
+//                    id: imageLoadingIndicator
+//                    anchors.horizontalCenter: parent.horizontalCenter
+//                    running: true
+//                }
 
-                Text {
-                    anchors {
-                        horizontalCenter: parent.horizontalCenter
-                        top: imageLoadingIndicator.bottom; topMargin: Theme.paddingLarge
-                    }
-                    font.pixelSize: Theme.fontSizeSmall;
-                    color: Theme.highlightColor;
-                    text: qsTr("Loading image...%1").arg(Math.round(imagePreview.progress*100) + "%")
-                }
+//                Text {
+//                    anchors {
+//                        horizontalCenter: parent.horizontalCenter
+//                        top: imageLoadingIndicator.bottom; topMargin: Theme.paddingLarge
+//                    }
+//                    font.pixelSize: Theme.fontSizeSmall;
+//                    color: Theme.highlightColor;
+//                    text: qsTr("Loading image...%1").arg(Math.round(imagePreview.progress*100) + "%")
+//                }
             }
         }
 

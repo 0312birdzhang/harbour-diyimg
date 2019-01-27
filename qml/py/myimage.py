@@ -16,24 +16,23 @@ import shutil
 
 #高斯模糊类
 class MyGaussianBlur(ImageFilter.Filter):
-    def __init__(self, radius=2, bounds=None):
+    name = "GaussianBlur"
+    def __init__(self, radius=40, bounds=None):
         self.radius = radius
         self.bounds = bounds
 
+
     def filter(self, image):
         if self.bounds:
-            Utils.log(str(type(image)))
             Utils.log(str(self.bounds))
             clips = image.crop(self.bounds)
-            Utils.log(str(type(clips)))
-            im = clips.filter(ImageFilter.GaussianBlur)
-            Utils.log(str(type(im)))
-            tmp_im = io.BytesIO()
-            im.save(tmp_im,format='PNG')
-            Utils.log(str(type(im)))
-            tmp_im.seek(0)
-            image.paste(Image.open(tmp_im), box = self.bounds)
-            del tmp_im
+            im = clips.filter(ImageFilter.GaussianBlur(self.radius))
+#            tmp_im = io.BytesIO()
+#            im.convert('RGB').save(tmp_im,format='PNG')
+#            tmp_im.seek(0)
+#            image.paste(Image.open(tmp_im), box = self.bounds)
+            image.paste(im, box = self.bounds)
+#            del tmp_im
             return image
         else:
             return image.filter(ImageFilter.GaussianBlur(self.radius))
@@ -41,12 +40,15 @@ class MyGaussianBlur(ImageFilter.Filter):
 class ImgHandler:
     def __init__(self):
         self.tmp_img = io.BytesIO()
-        self.savePath = "%s/%s" % (HOME, "Pictures/save/diyimg" )
+        self.savePath = "%s/%s" % (HOME, "Pictures/DiyIMG" )
         self.isExis()
 
     def isExis(self):
         if not os.path.exists(self.savePath):
             os.makedirs(self.savePath)
+
+    def cleanImg(self):
+        self.tmp_img = io.BytesIO()
 
     def saveImg(self, savename):
         Utils.loading("true")
@@ -88,7 +90,7 @@ class ImgHandler:
 
     #局部模糊
     def gaussianblur(self, img, bounds):
-        myblur = MyGaussianBlur(radius=2, bounds=bounds)
+        myblur = MyGaussianBlur(radius=40, bounds=bounds)
         return myblur.filter(img)
 
     def image_provider(self, image_id, requested_size):
@@ -121,6 +123,7 @@ class ImgHandler:
                     roiImg = self.color(img,num)
             roiImg.save(imgByteArr, format='PNG')
             self.tmp_img = imgByteArr
+            del roiImg
             Utils.loading("false")
             return bytearray(imgByteArr.getvalue()), (width, height), pyotherside.format_data
 

@@ -94,6 +94,11 @@ Page {
                         title: qsTr("About")
                     }
 
+                    Image{
+                        source: "image://theme/harbour-diyimg"
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+
                     SectionHeader {
                         //: headline for application description
                         text: qsTr("Description")
@@ -116,14 +121,14 @@ Page {
                     }
 
                     Label {
-                        text: qsTr("Copyright © by") + " 0312birzhang" + qsTr("License") + ": GPL v2"
-                        width: parent.width
+                        text: qsTr("Copyright © by") + " 0312birzhang"
+                        width: parent.width - Theme.paddingLarge * 2
                         anchors.horizontalCenter: parent.horizontalCenter
                         font.pixelSize: Theme.fontSizeSmall
                     }
                     Label {
                         text: qsTr("License") + ": GPL v2"
-                        width: parent.width
+                        width: parent.width - Theme.paddingLarge * 2
                         anchors.horizontalCenter: parent.horizontalCenter
                         font.pixelSize: Theme.fontSizeSmall
                     }
@@ -137,7 +142,7 @@ Page {
                     Label {
                         textFormat: Text.RichText;
                         text: "<style>a:link { color: " + Theme.highlightColor + "; }</style><a href=\"https://github.com/0312birdzhang/harbour-diyimg\">https://github.com/0312birdzhang/harbour-diyimg\</a>"
-                        width: parent.width
+                        width: parent.width - Theme.paddingLarge * 2
                         anchors.horizontalCenter: parent.horizontalCenter
                         font.pixelSize: Theme.fontSizeTiny
 

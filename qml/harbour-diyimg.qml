@@ -39,6 +39,7 @@ ApplicationWindow
     property real currentnum:1.0
     property string selectedFile
     property bool loading: false
+    property variant steps: [] // [{"ptype":xxx, "pnum":xxx}, ...]
 
     allowedOrientations: Orientation.All
     initialPage: Component { FirstPage { } }
@@ -82,13 +83,14 @@ ApplicationWindow
 
     function parsePath(url){
         var path;
-        if(url.substring(0,4) == "file"){
+        if(url.substring(0,4) === "file"){
             path = url.substring(7,url.length)
         }else{
             path = url;
         }
         return path;
     }
+
     Python{
         id:imgpy
         Component.onCompleted: {

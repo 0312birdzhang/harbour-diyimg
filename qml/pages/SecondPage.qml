@@ -93,7 +93,6 @@ Page {
                 }
                 MenuItem{
                     text: qsTr("Reset")
-                    visible: false
                     onClicked: {
                         ptype = "null"
                         pnum = "-1"
@@ -115,6 +114,7 @@ Page {
                 }
 
                 onPainted: {
+
                     if(!loading && currentindex == 4){
                         var num = parseInt(left)+ ","+ parseInt(upper)+ "," + parseInt(right) + "," + parseInt(lower);
                         flickable.parse(num);
@@ -131,23 +131,60 @@ Page {
                 bottom: parent.bottom
             }
 
-            Slider{
+            Row{
+                width: parent.width
                 anchors{
                     left:parent.left
                     right:parent.right
+                    margins: Theme.paddingSmall
+
                 }
-                id:slider
-                value: 1
-                enabled: !window.loading && currentindex != 4
-                opacity: ( !window.loading && currentindex != 4 )? 1: 0.3
-                minimumValue:-2.0
-                maximumValue:4.0
-                stepSize: 0.2
-                valueText: value.toFixed(1)
-                width: parent.width - Theme.paddingMedium * 2
-                onValueChanged: {
-                    if(!loading){
-                        flickable.parse(value.toFixed(1));
+                Slider{
+                    id:slider
+                    value: 1
+                    enabled: !window.loading && currentindex != 4
+                    opacity: ( !window.loading && currentindex != 4 )? 1: 0.3
+                    minimumValue:-2.0
+                    maximumValue:4.0
+                    stepSize: 0.2
+                    valueText: value.toFixed(1)
+                    width: parent.width// - iconBack.width - iconSave.width
+                    onValueChanged: {
+                        if(!loading){
+                            flickable.parse(value.toFixed(1));
+                        }
+                    }
+                }
+
+                Image{
+                    id: iconBack
+                    source: "image://theme/icon-m-back"
+                    anchors.verticalCenter: slider.verticalCenter
+                    sourceSize.width: Theme.iconSizeMedium
+                    sourceSize.height: Theme.iconSizeMedium
+                    enabled: window.steps.length > 0
+                    opacity: enabled?1:0.3
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: {
+                            var prevStep = window.steps.pop();
+                            pnum = prevStep.pnum;
+
+                        }
+                    }
+                }
+
+                Image{
+                    id: iconSave
+                    source: "image://theme/icon-m-clipboard"
+                    anchors.verticalCenter: slider.verticalCenter
+                    width: Theme.iconSizeMedium
+                    height: Theme.iconSizeMedium
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: {
+                            imgpy.save();
+                        }
                     }
                 }
             }
@@ -161,10 +198,9 @@ Page {
                     anchors.top: parent.top
                     color: Theme.highlightColor
                     height: Theme.paddingSmall
-                    width: parseImg.width / 5
+                    width: parseImg.width / 4
                     x: currentindex * width
                     z: 2
-
                     Behavior on x {
                         NumberAnimation {
                             duration: 200
@@ -172,25 +208,25 @@ Page {
                     }
                 }
 
-                Rectangle {
-                    anchors.top: parent.top
-                    color: "gray"
-                    opacity: 0.5
-                    height: Theme.paddingMedium
-                    width: parseImg.width
-                    z: 1
-                }
+//                Rectangle {
+//                    anchors.top: parent.top
+//                    color: "gray"
+//                    opacity: 0.5
+//                    height: Theme.paddingMedium
+//                    width: parseImg.width
+//                    z: 1
+//                }
 
             }
 
             Row {
                 id: tabHeader
                 Repeater {
-                    model: [qsTr("Sharp"), qsTr("Color"),qsTr("Bright"),qsTr("Contrast"),qsTr("Blur")]
+                    model: [qsTr("Sharp"), qsTr("Color"),qsTr("Bright"),qsTr("Contrast")/*,qsTr("Blur")*/]
                     Rectangle {
                         color: "black"
                         height: Theme.paddingLarge * 4
-                        width: imgpage.width / 5
+                        width: parseImg.width / 4
                         Label {
                             anchors.centerIn: parent
                             text: modelData
@@ -204,7 +240,7 @@ Page {
                             anchors.fill: parent
                             enabled: !window.loading
                             onClicked: {
-                                var selectedIndex = parent.x/(imgpage.width / 5) /* === 0 ? 0 :(parent.x === 180?1:360)*/
+                                var selectedIndex = parent.x/(parseImg.width / 4) /* === 0 ? 0 :(parent.x === 180?1:360)*/
                                 currentindex = selectedIndex;
                                 //window.currentnum = 1.0;
                                 //slider.value = 1.0
@@ -219,6 +255,9 @@ Page {
     }
 
 
+    Component.onDestruction: {
+        imgpy.clean()
+    }
 
 }
 

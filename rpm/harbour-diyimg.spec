@@ -6,7 +6,8 @@
 Name:       harbour-diyimg
 
 # >> macros
-%define __requires_exclude ^libc.so.6(GLIBC_2.11)|libjpeg.so.62|libjpeg.so.62(LIBJPEG_6.2)|libpython3.4m.so.1.0|libtiff.so.5.*$
+%define __provides_exclude_from ^%{_datadir}/%{name}/qml/py/PIL/.*$
+%define __requires_exclude ^libc.so.6(GLIBC_2.11)|libjpeg.so.62|libjpeg.so.62(LIBJPEG_6.2)|libpython3.4m.so.1.0|libtiff.so.5.*$|qt5-qtdocgallery
 # << macros
 
 %{!?qtc_qmake:%define qtc_qmake %qmake}
