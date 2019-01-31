@@ -16,7 +16,7 @@ Name:       harbour-diyimg
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Make sailfish style icon
 Version:    0.3
-Release:    1
+Release:    2
 Group:      Qt/Qt
 License:    LICENSE
 URL:        http://example.org/

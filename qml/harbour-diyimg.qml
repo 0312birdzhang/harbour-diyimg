@@ -103,7 +103,7 @@ ApplicationWindow
             })
 
             setHandler('log', function(msg){
-                console.log(msg);
+                console.log(new Date().toGMTString() + " " + msg.toString());
             })
 
             setHandler('tips', function(msg){

@@ -41,7 +41,8 @@ CONFIG += sailfishapp_i18n
 # following TRANSLATIONS line. And also do not forget to
 # modify the localized app name in the the .desktop file.
 TRANSLATIONS += translations/harbour-diyimg-de.ts \
-                translations/harbour-diyimg-zh_CN.ts
+                translations/harbour-diyimg-zh_CN.ts \
+                translations/harbour-diyimg-sv.ts
 
 DISTFILES += \
     qml/pages/SignalCenter.qml

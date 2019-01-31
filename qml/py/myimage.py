@@ -97,10 +97,13 @@ class ImgHandler:
         Utils.loading("true")
         ptype, pnum, filepath = image_id.split("___")
         try:
+            Utils.log("1")
             image_id = filepath.replace("file://","")
             img = Image.open(filepath)
+            Utils.log("2")
             width, height = img.size
             imgByteArr = io.BytesIO()
+            Utils.log("3")
             if ptype == "null" or pnum == "-1":
                 roiImg = img
             elif ptype == "blur":
@@ -121,8 +124,11 @@ class ImgHandler:
                     roiImg = self.contrast(img,num)
                 if ptype == "color":
                     roiImg = self.color(img,num)
-            roiImg.save(imgByteArr, format='PNG')
+            Utils.log("4")
+            roiImg.save(imgByteArr, format='PNG', compress_level=1)
+            Utils.log("5")
             self.tmp_img = imgByteArr
+            Utils.log("6")
             del roiImg
             Utils.loading("false")
             return bytearray(imgByteArr.getvalue()), (width, height), pyotherside.format_data

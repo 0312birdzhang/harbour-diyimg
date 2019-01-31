@@ -48,8 +48,8 @@ Page{
                     bottomMargin: Theme.paddingLarge * 3
                     rightMargin: Theme.paddingLarge * 2
                 }
-                source:flashopen? "image://theme/icon-m-flashlight":
-                                  "image://theme/icon-m-flashlight?" + Theme.darkSecondaryColor
+                source: "image://theme/icon-m-flashlight"
+                opacity: flashopen ? 1: 0.4
                 width: Theme.iconSizeMedium
                 height:Theme.iconSizeMedium
                 MouseArea {
