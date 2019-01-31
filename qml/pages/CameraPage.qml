@@ -20,6 +20,7 @@ Page{
                     photoPreview.source = preview
                 }
                 onImageSaved: {
+                    console.log("photo path:", path);
                     window.pageStack.replace(Qt.resolvedUrl("SecondPage.qml"),
                                                  { "url": path} );
 
@@ -60,9 +61,8 @@ Page{
 
             Image{
                 id:takpic
-                source:  "image://theme/icon-m-dot?" + (pressed
-                                                      ? Theme.highlightColor
-                                                      : Theme.primaryColor)
+                source:  "image://theme/icon-camera-shutter"
+
                 fillMode: Image.PreserveAspectFit
                 width: Theme.iconSizeLarge
                 height: Theme.iconSizeLarge

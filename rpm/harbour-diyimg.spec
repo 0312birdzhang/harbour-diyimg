@@ -27,6 +27,7 @@ Requires:   pyotherside-qml-plugin-python3-qt5 >= 1.5
 Requires:   qt5-qtdocgallery
 Requires:   nemo-qml-plugin-thumbnailer-qt5
 Requires:   mapplauncherd-booster-silica-qt5
+Requires:   python3-pillow >= 5.4.1
 BuildRequires:  pkgconfig(qdeclarative5-boostable)
 BuildRequires:  pkgconfig(sailfishapp) >= 1.0.2
 BuildRequires:  pkgconfig(Qt5Core)
