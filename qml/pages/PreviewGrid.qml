@@ -75,7 +75,7 @@ Page {
                 anchors.fill: parent
                 onClicked: {
                     window.pageStack.push(Qt.resolvedUrl("SecondPage.qml"),
-                                                 { "url": url} );
+                                                 { "url": url.toString().substring("file://".length)} );
                 }
             }
         }

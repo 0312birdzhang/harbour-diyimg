@@ -27,8 +27,7 @@ Page{
                 }
                 onCaptureFailed:{
                     window.showMsg(message);
-                    window.pageStack.pop();
-                    PageStack.pop(undefined,PageStackAction.Immediate);
+                    window.pageStack.pop(undefined,PageStackAction.Immediate);
                 }
             }
             focus {

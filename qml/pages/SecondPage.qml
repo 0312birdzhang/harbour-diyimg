@@ -72,7 +72,7 @@ Page {
         }
 
         function handleUrl(){
-            imgpage.localUrl = "image://python/" + ptype + "___" + pnum + "___" + url.substring("file://".length)
+            imgpage.localUrl = "image://python/" + ptype + "___" + pnum + "___" + url
         }
 
         Column{
@@ -87,17 +87,19 @@ Page {
                 flickable:flickable
                 MenuItem{
                     text: qsTr("Save")
+                    enabled: !window.loading
                     onClicked: {
                         imgpy.save()
                     }
                 }
                 MenuItem{
                     text: qsTr("Reset")
+                    visible: false
                     onClicked: {
                         ptype = "null"
                         pnum = "-1"
                         slider.value = 1
-                        handleUrl()
+                        parseImg.handleUrl()
                     }
                 }
             }
@@ -105,7 +107,13 @@ Page {
 
             ImagePage{
                 id: imgpage
-                localUrl: Qt.resolvedUrl(url.substring("file://".length))
+                localUrl: {
+                    if(url.indexOf("file://") > -1){
+                        return Qt.resolvedUrl(url.substring("file://".length))
+                    }else{
+                        return Qt.resolvedUrl(url)
+                    }
+                }
                 height: Screen.height - header.height - extraCol.height
                 anchors{
                     left:parent.left
@@ -230,6 +238,7 @@ Page {
                         Label {
                             anchors.centerIn: parent
                             text: modelData
+                            opacity: !window.loading ? 1: 0.4
                             color: Theme.highlightColor
                             font {
                                 bold: true
