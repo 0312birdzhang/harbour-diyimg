@@ -71,10 +71,10 @@ Item {
                     onPressed: {
                         if(!loading){
                             // (x, y, w+x, h+y)
-                            console.log("mouseX:",mouseX)
-                            console.log("mouseY:",mouseY)
-                            console.log("imagePreviewX:",imagePreview.x)
-                            console.log("imagePreviewY:",imagePreview.y)
+//                            console.log("mouseX:",mouseX)
+//                            console.log("mouseY:",mouseY)
+//                            console.log("imagePreviewX:",imagePreview.x)
+//                            console.log("imagePreviewY:",imagePreview.y)
                             var left,upper,right,lower;
                             left = mouseX - 10;
                             upper = mouseY - 10;

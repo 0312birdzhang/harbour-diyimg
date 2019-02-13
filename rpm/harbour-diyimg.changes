@@ -8,6 +8,9 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Wed Feb 13 2019 Birdzhang <0312birdzhang@gmail.com> 0.3-3
+- Add Polish translation from atlochowski
+
 * Thu Jan 31 2019 BirdZhang <0312birdzhang@gmail.com> 0.3-2
 - Improve performance
 - Add Swedish translation from eson57
