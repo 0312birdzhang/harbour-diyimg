@@ -24,12 +24,10 @@
     </message>
     <message>
         <source>About</source>
-        <extracomment>headline of application information page</extracomment>
         <translation>关于</translation>
     </message>
     <message>
         <source>Description</source>
-        <extracomment>headline for application description</extracomment>
         <translation>说明</translation>
     </message>
     <message>
@@ -42,7 +40,6 @@
     </message>
     <message>
         <source>Source code</source>
-        <extracomment>headline for application project information</extracomment>
         <translation>源代码</translation>
     </message>
     <message>

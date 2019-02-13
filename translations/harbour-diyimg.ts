@@ -28,12 +28,10 @@
     </message>
     <message>
         <source>About</source>
-        <extracomment>headline of application information page</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Description</source>
-        <extracomment>headline for application description</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -46,7 +44,6 @@
     </message>
     <message>
         <source>Source code</source>
-        <extracomment>headline for application project information</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>

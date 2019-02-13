@@ -90,7 +90,6 @@ Page {
                     spacing: Theme.paddingSmall
 
                     PageHeader {
-                        //: headline of application information page
                         title: qsTr("About")
                     }
 
@@ -100,7 +99,6 @@ Page {
                     }
 
                     SectionHeader {
-                        //: headline for application description
                         text: qsTr("Description")
                     }
 
@@ -134,7 +132,6 @@ Page {
                     }
 
                     SectionHeader {
-                        //: headline for application project information
                         text: qsTr("Source code")
                         font.pixelSize: Theme.fontSizeSmall
                     }

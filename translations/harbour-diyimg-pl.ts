@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1">
+<TS version="2.1" language="pl">
 <context>
     <name>CoverPage</name>
     <message>
@@ -28,12 +28,10 @@
     </message>
     <message>
         <source>About</source>
-        <extracomment>headline of application information page</extracomment>
         <translation>O DiyIMG</translation>
     </message>
     <message>
         <source>Description</source>
-        <extracomment>headline for application description</extracomment>
         <translation>Opis</translation>
     </message>
     <message>
@@ -46,12 +44,11 @@
     </message>
     <message>
         <source>Source code</source>
-        <extracomment>headline for application project information</extracomment>
         <translation>Kod źródłowy</translation>
     </message>
     <message>
         <source>This software is base on python PIL module,If you have any good idea, please contact me.</source>
-        <translation>Ten program bazuje na module Pythone'a PIL. Jeśli masz jakieś ciekawe pomysły, skontaktuj się ze mną.</translation>
+        <translation>Ten program bazuje na module Pythone&apos;a PIL. Jeśli masz jakieś ciekawe pomysły, skontaktuj się ze mną.</translation>
     </message>
     <message>
         <source>My email:</source>
@@ -104,7 +101,7 @@
     </message>
     <message>
         <source>Reset</source>
-        <translation">Reset</translation>
+        <translation>Reset</translation>
     </message>
 </context>
 <context>

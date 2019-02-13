@@ -14,7 +14,7 @@ Name:       harbour-diyimg
 %{!?qtc_qmake5:%define qtc_qmake5 %qmake5}
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
-Summary:    Make sailfish style icon
+Summary:    A little tool adjust your picture
 Version:    0.3
 Release:    2
 Group:      Qt/Qt
