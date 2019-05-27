@@ -16,7 +16,7 @@ Name:       harbour-diyimg
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    A little tool adjust your picture
 Version:    0.3
-Release:    3
+Release:    4
 Group:      Qt/Qt
 License:    LICENSE
 URL:        http://example.org/

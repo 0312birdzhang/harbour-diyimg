@@ -38,6 +38,7 @@ Page {
     property int currentindex: 0
     property string ptype: "null"
     property string pnum: "-1"
+    property bool needChange: true
 
     SilicaFlickable{
         id: flickable
@@ -158,9 +159,10 @@ Page {
                     valueText: value.toFixed(1)
                     width: parent.width// - iconBack.width - iconSave.width
                     onValueChanged: {
-                        if(!loading){
+                        if(!loading && needChange){
                             flickable.parse(value.toFixed(1));
                         }
+                        needChange = true;
                     }
                 }
 
@@ -251,8 +253,8 @@ Page {
                             onClicked: {
                                 var selectedIndex = parent.x/(parseImg.width / 4) /* === 0 ? 0 :(parent.x === 180?1:360)*/
                                 currentindex = selectedIndex;
-                                //window.currentnum = 1.0;
-                                //slider.value = 1.0
+                                needChange = false;
+                                slider.value = 1.0
                             }
                         }
                     }
